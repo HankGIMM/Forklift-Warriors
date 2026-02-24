@@ -111,6 +111,8 @@ namespace UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets
             forwardSource = m_CombinedTransform;
         }
 
+        
+
         /// <inheritdoc />
         protected override Vector3 ComputeDesiredMove(Vector2 input)
         {
