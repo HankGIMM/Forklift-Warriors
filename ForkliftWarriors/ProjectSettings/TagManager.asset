@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Anchor
+  - LeftRight
+  - UpDown
+  - Yaw
   layers:
   - Default
   - TransparentFX
