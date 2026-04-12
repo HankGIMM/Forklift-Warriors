@@ -2,89 +2,72 @@ using UnityEngine;
 
 public class RaiseFork : MonoBehaviour
 {
-    [SerializeField] VRLever raiseLever,leftRightLever,yawLever;
-    [SerializeField] int forkRaiseSpeed = 2;
-    [SerializeField] private int minY, maxY, minX, maxX;
-    GameObject forkliftFork;
-    
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [Header("Levers")]
+    [SerializeField] XRLever raiseLever;
+    [SerializeField] XRLever leftRightLever;
+    [SerializeField] XRLever tiltLever;
+
+    [Header("Fork Reference")]
+    [SerializeField] Transform forkTransform;
+
+    [Header("Speeds")]
+    [SerializeField] private float forkRaiseSpeed = 1f;
+    [SerializeField] private float forkSlideSpeed = 1f;
+    [SerializeField] private float forkTiltSpeed = 45f;
+
+    [Header("Limits")]
+    [SerializeField] private float minY, maxY;
+    [SerializeField] private float minZ, maxZ;
+    [SerializeField] private float minTilt, maxTilt;
+
+    private Vector3 restPosition;
+    private Quaternion restRotation;
+    private float currentTilt = 0f;
+    private const float deadzone = 0.1f;
+
     void Start()
     {
-        
+        restPosition = forkTransform.localPosition;
+        restRotation = forkTransform.localRotation;
     }
 
-    // Update is called once per frame
     void Update()
     {
-       
-        
         RaisingFork();
         LeftRightFork();
-        YawFork();
-
-        
+        TiltFork();
     }
+
+    // removes the small deadzone around centre so fork doesnt drift when lever is at rest
+    float ApplyDeadzone(float input)
+    {
+        if (Mathf.Abs(input) < deadzone) return 0f;
+        return Mathf.Sign(input) * (Mathf.Abs(input) - deadzone) / (1f - deadzone);
+    }
+
     void RaisingFork()
     {
-        Vector3 movement = Vector3.zero;
-
-        if (raiseLever.leverOutput <= 140)
-        {
-            movement = Vector3.up;
-        }
-        else if (raiseLever.leverOutput >= 160)
-        {
-            movement = Vector3.down;
-        }
-        if(transform.position.z >= 3f || transform.position.z <= -3f )
-        {
-            movement = Vector3.zero;
-        }
-        transform.position += movement * forkRaiseSpeed * Time.deltaTime;
-
-        float clampedY = Mathf.Clamp(transform.position.y, minY, maxY);
-        transform.position = new Vector3(transform.position.x, clampedY, transform.position.z);
+        float input = ApplyDeadzone(raiseLever.value);
+        Vector3 pos = forkTransform.localPosition;
+        pos.y += input * forkRaiseSpeed * Time.deltaTime;
+        pos.y = Mathf.Clamp(pos.y, restPosition.y + minY, restPosition.y + maxY);
+        forkTransform.localPosition = pos;
     }
+
     void LeftRightFork()
     {
-        float movement = 0f;
-
-        if (leftRightLever.leverOutput < 140)
-        {
-            movement = -1f; // left
-        }
-        else if (leftRightLever.leverOutput > 160)
-        {
-            movement = 1f; // right
-        }
-        if(transform.position.z >= 3f || transform.position.z <= -3f )
-        {
-            movement = 0f;
-        }
-        transform.position += new Vector3(0f, 0f, movement) * forkRaiseSpeed * Time.deltaTime;
-
-        float clampedX = Mathf.Clamp(transform.position.x, minX, maxX);
-        transform.position = new Vector3(clampedX, transform.position.y, transform.position.z);
-        
+        float input = ApplyDeadzone(leftRightLever.value);
+        Vector3 pos = forkTransform.localPosition;
+        pos.z += input * forkSlideSpeed * Time.deltaTime;
+        pos.z = Mathf.Clamp(pos.z, restPosition.z + minZ, restPosition.z + maxZ);
+        forkTransform.localPosition = pos;
     }
-    void YawFork()
-{
-    float rotation = 0f;
 
-    if (yawLever.leverOutput <= 140)
+    void TiltFork()
     {
-        rotation = -1f; // rotate left
+        float input = ApplyDeadzone(tiltLever.value);
+        currentTilt += input * forkTiltSpeed * Time.deltaTime;
+        currentTilt = Mathf.Clamp(currentTilt, minTilt, maxTilt);
+        forkTransform.localRotation = restRotation * Quaternion.Euler(currentTilt, 0f, 0f);
     }
-    else if (yawLever.leverOutput >= 160)
-    {
-        rotation = 1f; // rotate right
-    }
-    if(transform.rotation.z >= 3f || transform.rotation.z <= -3f )
-        {
-            rotation = 0f;
-        }
-
-    transform.Rotate(rotation * forkRaiseSpeed * Time.deltaTime ,0f, 0f);
-}
-    
 }
