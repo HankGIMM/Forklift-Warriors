@@ -58,8 +58,8 @@ public class RaiseFork : MonoBehaviour
     {
         float input = ApplyDeadzone(leftRightLever.value);
         Vector3 pos = forkTransform.localPosition;
-        pos.z += input * forkSlideSpeed * Time.deltaTime;
-        pos.z = Mathf.Clamp(pos.z, restPosition.z + minZ, restPosition.z + maxZ);
+        pos.x += input * forkSlideSpeed * Time.deltaTime;
+        pos.x = Mathf.Clamp(pos.x, restPosition.x + minZ, restPosition.x + maxZ);
         forkTransform.localPosition = pos;
     }
 
