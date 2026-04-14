@@ -8,6 +8,8 @@ TagManager:
   - LeftRight
   - UpDown
   - Yaw
+  - EnemyCollider
+  - boxpallet
   layers:
   - Default
   - TransparentFX
