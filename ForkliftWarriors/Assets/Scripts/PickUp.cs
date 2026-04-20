@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class PickUp : MonoBehaviour
 {
@@ -6,9 +7,12 @@ public class PickUp : MonoBehaviour
     public GameObject snapPoint;
     public Vector3 unsnapAngle;
     public float angleThreshold = 5f;
+    public float unsnapCooldown = 2f;
 
     private Rigidbody boxPallet;
     private bool isSnapped = false;
+    private float unsnapTime = -1f;
+    private bool hasMovedAwayFromUnsnapAngle = false;
 
     void Update()
     {
@@ -21,7 +25,16 @@ public class PickUp : MonoBehaviour
             float targetYaw = (unsnapAngle.y + 360f) % 360f;
             float yawDiff = Mathf.Abs(Mathf.DeltaAngle(currentYaw, targetYaw));
 
-            Debug.Log($"Spokes Current: {currentYaw} Target: {targetYaw} Diff: {yawDiff}");
+            Debug.Log($"Current: {currentYaw} Target: {targetYaw} Diff: {yawDiff} MovedAway: {hasMovedAwayFromUnsnapAngle}");
+
+            if (!hasMovedAwayFromUnsnapAngle)
+            {
+                if (yawDiff > angleThreshold * 3f)
+                {
+                    hasMovedAwayFromUnsnapAngle = true;
+                }
+                return;
+            }
 
             if (yawDiff <= angleThreshold)
             {
@@ -32,7 +45,8 @@ public class PickUp : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        // Walk up to find the tagged parent since CheckOne/CheckTwo are children
+        if (Time.time < unsnapTime + unsnapCooldown) return;
+
         Transform root = other.transform;
         while (root.parent != null && !root.CompareTag(tagName))
         {
@@ -48,6 +62,7 @@ public class PickUp : MonoBehaviour
             boxPallet.isKinematic = true;
             root.SetParent(snapPoint.transform);
             isSnapped = true;
+            hasMovedAwayFromUnsnapAngle = false;
             Debug.Log("Snapped: " + root.name);
         }
     }
@@ -55,9 +70,33 @@ public class PickUp : MonoBehaviour
     private void Unsnap()
     {
         isSnapped = false;
+        unsnapTime = Time.time;
+
+        // Get all colliders on the pallet and spokes, ignore between them temporarily
+        Collider[] palletColliders = boxPallet.GetComponentsInChildren<Collider>();
+        Collider[] spokesColliders = snapPoint.transform.parent.GetComponentsInChildren<Collider>();
+
+        foreach (Collider palletCol in palletColliders)
+            foreach (Collider spokesCol in spokesColliders)
+                Physics.IgnoreCollision(palletCol, spokesCol, true);
+
+        StartCoroutine(ReEnableCollision(palletColliders, spokesColliders, unsnapCooldown));
+
         boxPallet.transform.SetParent(null);
         boxPallet.isKinematic = false;
         boxPallet = null;
         Debug.Log("Unsnapped - dropped!");
+    }
+
+    private IEnumerator ReEnableCollision(Collider[] palletColliders, Collider[] spokesColliders, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        foreach (Collider palletCol in palletColliders)
+            foreach (Collider spokesCol in spokesColliders)
+                if (palletCol != null && spokesCol != null)
+                    Physics.IgnoreCollision(palletCol, spokesCol, false);
+
+        Debug.Log("Collision re-enabled");
     }
 }
