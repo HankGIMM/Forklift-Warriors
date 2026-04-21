@@ -30,16 +30,12 @@ public class PickUp : MonoBehaviour
             if (!hasMovedAwayFromUnsnapAngle)
             {
                 if (yawDiff > angleThreshold * 3f)
-                {
                     hasMovedAwayFromUnsnapAngle = true;
-                }
                 return;
             }
 
             if (yawDiff <= angleThreshold)
-            {
                 Unsnap();
-            }
         }
     }
 
@@ -49,22 +45,23 @@ public class PickUp : MonoBehaviour
 
         Transform root = other.transform;
         while (root.parent != null && !root.CompareTag(tagName))
-        {
             root = root.parent;
-        }
 
         if (!root.CompareTag(tagName) || isSnapped) return;
 
-        boxPallet = root.GetComponent<Rigidbody>();
+        Rigidbody rb = root.GetComponent<Rigidbody>();
+        if (rb != null)
+            Snap(root, rb);
+    }
 
-        if (boxPallet != null)
-        {
-            boxPallet.isKinematic = true;
-            root.SetParent(snapPoint.transform);
-            isSnapped = true;
-            hasMovedAwayFromUnsnapAngle = false;
-            Debug.Log("Snapped: " + root.name);
-        }
+    private void Snap(Transform root, Rigidbody rb)
+    {
+        boxPallet = rb;
+        boxPallet.isKinematic = true;
+        root.SetParent(snapPoint.transform);
+        isSnapped = true;
+        hasMovedAwayFromUnsnapAngle = false;
+        Debug.Log("Snapped: " + root.name);
     }
 
     private void Unsnap()
@@ -72,7 +69,6 @@ public class PickUp : MonoBehaviour
         isSnapped = false;
         unsnapTime = Time.time;
 
-        // Get all colliders on the pallet and spokes, ignore between them temporarily
         Collider[] palletColliders = boxPallet.GetComponentsInChildren<Collider>();
         Collider[] spokesColliders = snapPoint.transform.parent.GetComponentsInChildren<Collider>();
 
