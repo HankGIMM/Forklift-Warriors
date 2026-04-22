@@ -8,11 +8,11 @@ public class PatrolState : EnemyState
     public List<Transform> waypoints;
     public Transform currentDestination;
     public int currentWaypointIndex = -1;
-    public ChaseState chaseState;
-    public EnemySight enemySight;
-    public StunnedState stunnedState;
+    //  public ChaseState chaseState;
+    // public EnemySight enemySight;
+    //public StunnedState stunnedState;
     public NavMeshAgent navMeshAgent;
-    public EnemyHealth enemyHealth;
+    //    public EnemyHealth enemyHealth;
     private bool isWaiting = false;
     [SerializeField] private Animator animator;
     public AudioSource walkSound;
@@ -32,13 +32,13 @@ public class PatrolState : EnemyState
 
     public override EnemyState RunCurrentState()
     {
-        if (enemyHealth.stunned)
-        {
-            animator.SetBool("isPatrolling", false);
-            animator.SetBool("isIdle", false);
-            animator.SetBool("isStunned", true);
-            return stunnedState;
-        }
+        // if (enemyHealth.stunned)
+        // {
+        //     animator.SetBool("isPatrolling", false);
+        //     animator.SetBool("isIdle", false);
+        //     animator.SetBool("isStunned", true);
+        //     return stunnedState;
+        // }
 
         if (isWaiting)
         {
@@ -50,17 +50,18 @@ public class PatrolState : EnemyState
             StartCoroutine(WaitAtWaypoint());
         }
 
-        if (enemySight.canSeePlayer)
-        {
-            animator.SetBool("isPatrolling", false);
-            animator.SetBool("isIdle", false);
-            animator.SetBool("isChase", true);
-            return chaseState;
-        }
-        else
-        {
-            return this;
-        }
+        // if (enemySight.canSeePlayer)
+        // {
+        //     animator.SetBool("isPatrolling", false);
+        //     animator.SetBool("isIdle", false);
+        //     animator.SetBool("isChase", true);
+        //     return chaseState;
+        // }
+        // else
+        // {
+        //     return this;
+        // }
+        return this;
     }
 
     private IEnumerator WaitAtWaypoint()
@@ -96,7 +97,8 @@ public class PatrolState : EnemyState
     }
     private IEnumerator AudioFade()
     {
-        while(walkSound.volume > 0){
+        while (walkSound.volume > 0)
+        {
             walkSound.volume -= 0.1f;
             yield return new WaitForSeconds(0.1f);
         }

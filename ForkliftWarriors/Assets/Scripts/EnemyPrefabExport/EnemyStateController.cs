@@ -27,18 +27,18 @@ public class EnemyStateController : MonoBehaviour
         {
             animator.SetBool("isPatrolling", true);
         }
-        else if (currentState is ChaseState)
-        {
-            animator.SetBool("isChase", true);
-        }
-        else if (currentState is AttackState)
-        {
-            animator.SetBool("isAttack", true);
-        }
-        else if (currentState is StunnedState)
-        {
-            animator.SetBool("isStunned", true);
-        }
+        // else if (currentState is ChaseState)
+        // {
+        //     animator.SetBool("isChase", true);
+        // }
+        // else if (currentState is AttackState)
+        // {
+        //     animator.SetBool("isAttack", true);
+        // }
+        // else if (currentState is StunnedState)
+        // {
+        //     animator.SetBool("isStunned", true);
+        // }
     }
 
     private void RunStateMachine()
@@ -61,18 +61,18 @@ public class EnemyStateController : MonoBehaviour
         {
             animator.SetBool("isPatrolling", false);
         }
-        else if (previousState is ChaseState)
-        {
-            animator.SetBool("isChase", false);
-        }
-        else if (previousState is AttackState)
-        {
-            animator.SetBool("isAttack", false);
-        }
-        else if (previousState is StunnedState)
-        {
-            animator.SetBool("isStunned", false);
-        }
+        // else if (previousState is ChaseState)
+        // {
+        //     animator.SetBool("isChase", false);
+        // }
+        // else if (previousState is AttackState)
+        // {
+        //     animator.SetBool("isAttack", false);
+        // }
+        // else if (previousState is StunnedState)
+        // {
+        //     animator.SetBool("isStunned", false);
+        // }
 
         // Switch to the next state
         currentState = nextState;
