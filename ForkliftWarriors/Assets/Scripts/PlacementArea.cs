@@ -8,10 +8,12 @@ public class PlacementArea : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        if (other.transform.root != other.transform && other.CompareTag("boxpallet"))
+            return;
+
         if (other.CompareTag("boxpallet") && !isSnapped)
         {
             Rigidbody rb = other.GetComponent<Rigidbody>();
-
             if (rb != null)
                 Snap(other.transform, rb);
         }

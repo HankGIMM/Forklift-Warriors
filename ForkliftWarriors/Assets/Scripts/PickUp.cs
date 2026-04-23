@@ -25,8 +25,6 @@ public class PickUp : MonoBehaviour
             float targetYaw = (unsnapAngle.y + 360f) % 360f;
             float yawDiff = Mathf.Abs(Mathf.DeltaAngle(currentYaw, targetYaw));
 
-            Debug.Log($"Current: {currentYaw} Target: {targetYaw} Diff: {yawDiff} MovedAway: {hasMovedAwayFromUnsnapAngle}");
-
             if (!hasMovedAwayFromUnsnapAngle)
             {
                 if (yawDiff > angleThreshold * 3f)
@@ -68,20 +66,29 @@ public class PickUp : MonoBehaviour
     {
         isSnapped = false;
         unsnapTime = Time.time;
+        foreach (Collider col in boxPallet.GetComponentsInChildren<Collider>(true))
+        {
+            col.enabled = true;
+        } 
 
         Collider[] palletColliders = boxPallet.GetComponentsInChildren<Collider>();
         Collider[] spokesColliders = snapPoint.transform.parent.GetComponentsInChildren<Collider>();
 
         foreach (Collider palletCol in palletColliders)
+        {
             foreach (Collider spokesCol in spokesColliders)
+            {
                 Physics.IgnoreCollision(palletCol, spokesCol, true);
+            }       
+        }
+            
 
         StartCoroutine(ReEnableCollision(palletColliders, spokesColliders, unsnapCooldown));
 
         boxPallet.transform.SetParent(null);
         boxPallet.isKinematic = false;
         boxPallet = null;
-        Debug.Log("Unsnapped - dropped!");
+        Debug.Log("dropped!");
     }
 
     private IEnumerator ReEnableCollision(Collider[] palletColliders, Collider[] spokesColliders, float delay)
@@ -93,6 +100,6 @@ public class PickUp : MonoBehaviour
                 if (palletCol != null && spokesCol != null)
                     Physics.IgnoreCollision(palletCol, spokesCol, false);
 
-        Debug.Log("Collision re-enabled");
+        Debug.Log("Collide once more");
     }
 }
