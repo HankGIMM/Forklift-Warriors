@@ -5,6 +5,7 @@ public class PlacementArea : MonoBehaviour
     private Rigidbody boxPallet;
     private bool isSnapped;
     public GameObject snapPoint;
+    public GameObject objectiveAreaVisuals;
 
     void OnTriggerEnter(Collider other)
     {
@@ -15,7 +16,11 @@ public class PlacementArea : MonoBehaviour
         {
             Rigidbody rb = other.GetComponent<Rigidbody>();
             if (rb != null)
+            {
+                objectiveAreaVisuals.SetActive(false);
+                //play animation like confetti or something
                 Snap(other.transform, rb);
+            }
         }
     }
 
