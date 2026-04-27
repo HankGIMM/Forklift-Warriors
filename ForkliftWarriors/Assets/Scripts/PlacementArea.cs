@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class PlacementArea : MonoBehaviour
 {
@@ -6,7 +7,13 @@ public class PlacementArea : MonoBehaviour
     private bool isSnapped;
     public GameObject snapPoint;
     public GameObject objectiveAreaVisuals;
-
+    private GameObject scoreObject;
+    private ScoreScript scoreScript;
+    void Start()
+    {
+        scoreObject = GameObject.FindGameObjectWithTag("ScoreManager");
+        scoreScript = scoreObject.GetComponent<ScoreScript>();
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.transform.root != other.transform && other.CompareTag("boxpallet"))
@@ -39,5 +46,6 @@ public class PlacementArea : MonoBehaviour
             col.enabled = false; 
         }
         Debug.Log("Snapped permanently: " + root.name);
+        scoreScript.ScoreUptaded();
     }
 }
