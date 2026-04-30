@@ -2105,7 +2105,7 @@ MonoBehaviour:
   testRagdoll: 0
   animator: {fileID: 453097696}
   collisionForceThreshold: 5
-  ragdollRecoveryTime: 10
+  ragdollRecoveryTime: 2
   navMeshAgent: {fileID: 453097693}
   patrolState: {fileID: 453097694}
   hipsBone: {fileID: 1835797109}
