@@ -26,6 +26,7 @@ public class RaiseFork : MonoBehaviour
     [SerializeField] private AudioSource accessibleSound_Raise_Lower;
     [SerializeField] private AudioSource accessibleSound_Left_Right;
     [SerializeField] private AudioSource accessibleSound_Tilt;
+
     [Header("Subtitles")]
     [SerializeField] private TextMeshProUGUI RaiseLower_subtitleText;
     [SerializeField] private TextMeshProUGUI LeftRight_subtitleText;
@@ -36,35 +37,89 @@ public class RaiseFork : MonoBehaviour
     private float currentTilt = 0f;
     private const float deadzone = 0.1f;
 
-    void Start()
+    // -------------------------
+    // ✅ NEW: Centralized reset
+    // -------------------------
+    void ClearAllListeners()
     {
-        restPosition = forkTransform.localPosition;
-        restRotation = forkTransform.localRotation;
+        raiseLever.hoverEntered.RemoveAllListeners();
+        raiseLever.hoverExited.RemoveAllListeners();
 
+        leftRightLever.hoverEntered.RemoveAllListeners();
+        leftRightLever.hoverExited.RemoveAllListeners();
+
+        tiltLever.hoverEntered.RemoveAllListeners();
+        tiltLever.hoverExited.RemoveAllListeners();
+
+        // Reset subtitles
+        RaiseLower_subtitleText.text = "";
+        LeftRight_subtitleText.text = "";
+        Tilt_subtitleText.text = "";
+
+        // Stop audio just in case
+        accessibleSound_Raise_Lower.Stop();
+        accessibleSound_Left_Right.Stop();
+        accessibleSound_Tilt.Stop();
+    }
+
+    public void OnDropdownChanged(int index)
+    {
+        // ✅ Always reset first
+        ClearAllListeners();
+
+        switch (index)
+        {
+            case 0:
+                // None → do nothing
+                break;
+
+            case 1:
+                AudioPlayer();
+                break;
+
+            case 2:
+                Subtitle();
+                break;
+
+            case 3:
+                BothAudioPlayerAndSubtitle();
+                break;
+        }
+    }
+
+    public void AudioPlayer()
+    {
         raiseLever.hoverEntered.AddListener(_ => accessibleSound_Raise_Lower.Play());
         raiseLever.hoverExited.AddListener(_ => accessibleSound_Raise_Lower.Stop());
-        raiseLever.hoverEntered.AddListener(_ => RaiseLower_subtitleText.text = "Raising/Lowering Fork");
-        raiseLever.hoverExited.AddListener(_ => RaiseLower_subtitleText.text = "");
 
         leftRightLever.hoverEntered.AddListener(_ => accessibleSound_Left_Right.Play());
         leftRightLever.hoverExited.AddListener(_ => accessibleSound_Left_Right.Stop());
-        leftRightLever.hoverEntered.AddListener(_ => LeftRight_subtitleText.text = "Sliding Fork Left/Right"); 
-        leftRightLever.hoverExited.AddListener(_ => LeftRight_subtitleText.text = "");
 
         tiltLever.hoverEntered.AddListener(_ => accessibleSound_Tilt.Play());
         tiltLever.hoverExited.AddListener(_ => accessibleSound_Tilt.Stop());
-        tiltLever.hoverEntered.AddListener(_ => Tilt_subtitleText.text = "Tilting Fork Forward/Backward");
+    }
+
+    public void Subtitle()
+    {
+        raiseLever.hoverEntered.AddListener(_ => RaiseLower_subtitleText.text = "Raise and Lower Lever");
+        raiseLever.hoverExited.AddListener(_ => RaiseLower_subtitleText.text = "");
+
+        leftRightLever.hoverEntered.AddListener(_ => LeftRight_subtitleText.text = "Left and Right Lever");
+        leftRightLever.hoverExited.AddListener(_ => LeftRight_subtitleText.text = "");
+
+        tiltLever.hoverEntered.AddListener(_ => Tilt_subtitleText.text = "Tilt Lever");
         tiltLever.hoverExited.AddListener(_ => Tilt_subtitleText.text = "");
+    }
+
+    public void BothAudioPlayerAndSubtitle()
+    {
+        AudioPlayer();
+        Subtitle();
     }
 
     void OnDestroy()
     {
-        raiseLever.hoverEntered.RemoveAllListeners();
-        raiseLever.hoverExited.RemoveAllListeners();
-        leftRightLever.hoverEntered.RemoveAllListeners();
-        leftRightLever.hoverExited.RemoveAllListeners();
-        tiltLever.hoverEntered.RemoveAllListeners();
-        tiltLever.hoverExited.RemoveAllListeners();
+        ClearAllListeners();
     }
 
     void Update()
