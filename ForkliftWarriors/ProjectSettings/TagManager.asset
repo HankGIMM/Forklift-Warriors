@@ -10,6 +10,7 @@ TagManager:
   - Yaw
   - EnemyCollider
   - boxpallet
+  - ScoreManager
   layers:
   - Default
   - TransparentFX

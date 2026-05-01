@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using TMPro;
 
 public class RaiseFork : MonoBehaviour
 {
@@ -20,6 +22,15 @@ public class RaiseFork : MonoBehaviour
     [SerializeField] private float minZ, maxZ;
     [SerializeField] private float minTilt, maxTilt;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource accessibleSound_Raise_Lower;
+    [SerializeField] private AudioSource accessibleSound_Left_Right;
+    [SerializeField] private AudioSource accessibleSound_Tilt;
+    [Header("Subtitles")]
+    [SerializeField] private TextMeshProUGUI RaiseLower_subtitleText;
+    [SerializeField] private TextMeshProUGUI LeftRight_subtitleText;
+    [SerializeField] private TextMeshProUGUI Tilt_subtitleText;
+
     private Vector3 restPosition;
     private Quaternion restRotation;
     private float currentTilt = 0f;
@@ -29,6 +40,31 @@ public class RaiseFork : MonoBehaviour
     {
         restPosition = forkTransform.localPosition;
         restRotation = forkTransform.localRotation;
+
+        raiseLever.hoverEntered.AddListener(_ => accessibleSound_Raise_Lower.Play());
+        raiseLever.hoverExited.AddListener(_ => accessibleSound_Raise_Lower.Stop());
+        raiseLever.hoverEntered.AddListener(_ => RaiseLower_subtitleText.text = "Raising/Lowering Fork");
+        raiseLever.hoverExited.AddListener(_ => RaiseLower_subtitleText.text = "");
+
+        leftRightLever.hoverEntered.AddListener(_ => accessibleSound_Left_Right.Play());
+        leftRightLever.hoverExited.AddListener(_ => accessibleSound_Left_Right.Stop());
+        leftRightLever.hoverEntered.AddListener(_ => LeftRight_subtitleText.text = "Sliding Fork Left/Right"); 
+        leftRightLever.hoverExited.AddListener(_ => LeftRight_subtitleText.text = "");
+
+        tiltLever.hoverEntered.AddListener(_ => accessibleSound_Tilt.Play());
+        tiltLever.hoverExited.AddListener(_ => accessibleSound_Tilt.Stop());
+        tiltLever.hoverEntered.AddListener(_ => Tilt_subtitleText.text = "Tilting Fork Forward/Backward");
+        tiltLever.hoverExited.AddListener(_ => Tilt_subtitleText.text = "");
+    }
+
+    void OnDestroy()
+    {
+        raiseLever.hoverEntered.RemoveAllListeners();
+        raiseLever.hoverExited.RemoveAllListeners();
+        leftRightLever.hoverEntered.RemoveAllListeners();
+        leftRightLever.hoverExited.RemoveAllListeners();
+        tiltLever.hoverEntered.RemoveAllListeners();
+        tiltLever.hoverExited.RemoveAllListeners();
     }
 
     void Update()
@@ -38,36 +74,50 @@ public class RaiseFork : MonoBehaviour
         TiltFork();
     }
 
-    // removes the small deadzone around centre so fork doesnt drift when lever is at rest
     float ApplyDeadzone(float input)
     {
         if (Mathf.Abs(input) < deadzone) return 0f;
         return Mathf.Sign(input) * (Mathf.Abs(input) - deadzone) / (1f - deadzone);
     }
 
+    float GetLeverInput(XRLever lever)
+    {
+        if (!lever.isSelected) return 0f;
+        return ApplyDeadzone(lever.value);
+    }
+
     void RaisingFork()
     {
-        float input = ApplyDeadzone(raiseLever.value);
-        Vector3 pos = forkTransform.localPosition;
-        pos.y += input * forkRaiseSpeed * Time.deltaTime;
-        pos.y = Mathf.Clamp(pos.y, restPosition.y + minY, restPosition.y + maxY);
-        forkTransform.localPosition = pos;
+        float input = GetLeverInput(raiseLever);
+        if (input != 0f)
+        {
+            Vector3 pos = forkTransform.localPosition;
+            pos.y += input * forkRaiseSpeed * Time.deltaTime;
+            pos.y = Mathf.Clamp(pos.y, restPosition.y + minY, restPosition.y + maxY);
+            forkTransform.localPosition = pos;
+        }
     }
 
     void LeftRightFork()
     {
-        float input = ApplyDeadzone(leftRightLever.value);
-        Vector3 pos = forkTransform.localPosition;
-        pos.x += input * forkSlideSpeed * Time.deltaTime;
-        pos.x = Mathf.Clamp(pos.x, restPosition.x + minZ, restPosition.x + maxZ);
-        forkTransform.localPosition = pos;
+        float input = GetLeverInput(leftRightLever);
+        if (input != 0f)
+        {
+            Vector3 pos = forkTransform.localPosition;
+            pos.x += input * forkSlideSpeed * Time.deltaTime;
+            pos.x = Mathf.Clamp(pos.x, restPosition.x + minZ, restPosition.x + maxZ);
+            forkTransform.localPosition = pos;
+        }
     }
 
     void TiltFork()
     {
-        float input = ApplyDeadzone(tiltLever.value);
-        currentTilt += input * forkTiltSpeed * Time.deltaTime;
-        currentTilt = Mathf.Clamp(currentTilt, minTilt, maxTilt);
-        forkTransform.localRotation = restRotation * Quaternion.Euler(currentTilt, 0f, 0f);
+        float input = GetLeverInput(tiltLever);
+        if (input != 0f)
+        {
+            currentTilt += input * forkTiltSpeed * Time.deltaTime;
+            currentTilt = Mathf.Clamp(currentTilt, minTilt, maxTilt);
+            forkTransform.localRotation = restRotation * Quaternion.Euler(currentTilt, 0f, 0f);
+        }
     }
 }

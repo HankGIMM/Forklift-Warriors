@@ -24,68 +24,55 @@ public class Forklift : MonoBehaviour
     [Header("References")]
     [SerializeField] Rigidbody rb;
 
-    void FixedUpdate()
+    void Start()
+{
+    // Kill any velocity the Rigidbody may have accumulated before first input frame
+    if (rb != null)
     {
-        // 1. Get Joystick Input
-        Vector2 leftHandInput = m_LeftHandMoveInput.ReadValue();
-        Vector2 rightHandInput = m_RightHandMoveInput.ReadValue();
-
-        float verticalInput = leftHandInput.y;   // Left joystick Forward/Backward
-        float horizontalInput = rightHandInput.x; // Right joystick Left/Right
-
-        print(horizontalInput);
-
-        // 2. Handle Steering
-        if (Mathf.Abs(horizontalInput) > 0.05f) // Small deadzone
-        {
-            // Calculate rotation amount based on input and turn speed
-            float turnAmount = horizontalInput * turnSpeed * Time.fixedDeltaTime;
-            Quaternion turnOffset = Quaternion.Euler(0, turnAmount, 0);
-            
-            // MoveRotation is the most stable way to turn a rigid body
-            rb.MoveRotation(rb.rotation * turnOffset);
-        }
-
-        // 3. Prevent Lateral "Ice Skating" Drift
-        // Convert world velocity to local velocity to isolate forward/sideways/upward speed
-        Vector3 localVelocity = transform.InverseTransformDirection(rb.linearVelocity);
-        
-        // Rapidly kill sideways velocity (X axis) to simulate tire grip
-        localVelocity.x = Mathf.Lerp(localVelocity.x, 0, Time.fixedDeltaTime * 10f);
-        rb.linearVelocity = transform.TransformDirection(localVelocity);
-
-        // Update local speed reference after killing drift
-        float currentForwardSpeed = localVelocity.z;
-
-        // 4. Handle Acceleration & Braking
-        if (Mathf.Abs(verticalInput) > 0.05f) // If pushing joystick
-        {
-            float targetAcceleration = (verticalInput > 0) ? maxAcceleration : maxReverseAccel;
-            
-            // Only apply forward force if we haven't hit max speed yet
-            if (Mathf.Abs(currentForwardSpeed) < maxSpeed)
-            {
-                Vector3 accelerationVector = transform.forward * (verticalInput * targetAcceleration);
-                rb.AddForce(accelerationVector, ForceMode.Acceleration);
-            }
-        }
-        else // Braking (joystick released)
-        {
-            // If we are still moving forward/backward
-            if (Mathf.Abs(currentForwardSpeed) > 0.1f)
-            {
-                // Apply a strong counter-force (maxDeceleration) in the opposite direction
-                float brakeDirection = Mathf.Sign(currentForwardSpeed) * -1f;
-                Vector3 brakeVector = transform.forward * (maxDeceleration * brakeDirection);
-                rb.AddForce(brakeVector, ForceMode.Acceleration);
-            }
-            else
-            {
-                // Full stop. If we get close to 0, snap z velocity to 0 to prevent micro-drifting
-                localVelocity = transform.InverseTransformDirection(rb.linearVelocity);
-                localVelocity.z = 0;
-                rb.linearVelocity = transform.TransformDirection(localVelocity);
-            }
-        }
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
     }
+}
+
+void FixedUpdate()
+{
+    // 1. Get Joystick Input
+    Vector2 leftHandInput = m_LeftHandMoveInput.ReadValue();
+    Vector2 rightHandInput = m_RightHandMoveInput.ReadValue();
+
+    float verticalInput   = leftHandInput.y;
+    float horizontalInput = rightHandInput.x;
+
+    // 2. Handle Steering (unchanged — this part was fine)
+    if (Mathf.Abs(horizontalInput) > 0.05f)
+    {
+        float turnAmount = horizontalInput * turnSpeed * Time.fixedDeltaTime;
+        rb.MoveRotation(rb.rotation * Quaternion.Euler(0, turnAmount, 0));
+    }
+
+    // 3. Kill lateral drift (unchanged — this part was fine)
+    Vector3 localVelocity = transform.InverseTransformDirection(rb.linearVelocity);
+    localVelocity.x = Mathf.Lerp(localVelocity.x, 0, Time.fixedDeltaTime * 10f);
+
+    float currentForwardSpeed = localVelocity.z;
+
+    // 4. Acceleration & Braking via MoveTowards (no more AddForce oscillation)
+    float newForwardSpeed;
+
+    if (Mathf.Abs(verticalInput) > 0.05f)
+    {
+        // Determine target speed based on input direction
+        float targetSpeed = verticalInput * maxSpeed; // handles both forward and reverse
+        float accel = (verticalInput > 0) ? maxAcceleration : maxReverseAccel;
+        newForwardSpeed = Mathf.MoveTowards(currentForwardSpeed, targetSpeed, accel * Time.fixedDeltaTime);
+    }
+    else
+    {
+        // Braking: MoveTowards(current, 0) will NEVER overshoot past zero
+        newForwardSpeed = Mathf.MoveTowards(currentForwardSpeed, 0f, maxDeceleration * Time.fixedDeltaTime);
+    }
+
+    localVelocity.z = newForwardSpeed;
+    rb.linearVelocity = transform.TransformDirection(localVelocity);
+}
 }
