@@ -330,8 +330,8 @@ MonoBehaviour:
   m_Handle: {fileID: 1363608879}
   m_MaxAngle: 60
   m_MinAngle: -60
-  m_ReturnToCenter: 0
-  m_ReturnSpeed: 5
+  m_ReturnToCenter: 1
+  m_ReturnSpeed: 10
 --- !u!1 &64287443
 GameObject:
   m_ObjectHideFlags: 0
@@ -703,8 +703,8 @@ MonoBehaviour:
   m_Handle: {fileID: 1661851078}
   m_MaxAngle: 60
   m_MinAngle: -60
-  m_ReturnToCenter: 0
-  m_ReturnSpeed: 5
+  m_ReturnToCenter: 1
+  m_ReturnSpeed: 10
 --- !u!114 &237806328 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8629926924687228403, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
@@ -2290,8 +2290,8 @@ MonoBehaviour:
   m_Handle: {fileID: 742777071}
   m_MaxAngle: 60
   m_MinAngle: -60
-  m_ReturnToCenter: 0
-  m_ReturnSpeed: 5
+  m_ReturnToCenter: 1
+  m_ReturnSpeed: 10
 --- !u!1 &479267988
 GameObject:
   m_ObjectHideFlags: 0
