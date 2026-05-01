@@ -1,40 +1,20 @@
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+   public class LevelManager : MonoBehaviour
 {
-    private GameObject scoreObject;
-    private ScoreScript scoreScript;
-
+    public ScoreScript scoreScript;
     public GameObject[] palletObjects;
     public GameObject[] placementAreas;
-    void Start()
-    {
-        scoreObject = GameObject.FindGameObjectWithTag("ScoreManager");
-        scoreScript = scoreObject.GetComponent<ScoreScript>();
-    }
 
-    // Update is called once per frame
-    void Update()
+    public void OnScoreChanged(int score)
     {
-        if (scoreScript.score == 2)
+        // score - 2 gives us the correct array index (score 2 = index 0, etc.)
+        int index = score - 2;
+        if (index >= 0 && index < palletObjects.Length)
         {
-            palletObjects[0].SetActive(true);
-            placementAreas[0].SetActive(true);
-        }
-        else if(scoreScript.score == 3)
-        {
-            palletObjects[1].SetActive(true);
-            placementAreas[1].SetActive(true);
-        }
-        else if(scoreScript.score == 4)
-        {
-            palletObjects[2].SetActive(true);
-            placementAreas[2].SetActive(true);
-        }
-        else if(scoreScript.score == 5)
-        {
-            palletObjects[3].SetActive(true);
-            placementAreas[3].SetActive(true);
+            palletObjects[index].SetActive(true);
+            placementAreas[index].SetActive(true);
         }
     }
 }
+

@@ -46,6 +46,6 @@ public class PlacementArea : MonoBehaviour
             col.enabled = false; 
         }
         Debug.Log("Snapped permanently: " + root.name);
-        scoreScript.ScoreUptaded();
+        scoreScript.ScoreUpdated();
     }
 }

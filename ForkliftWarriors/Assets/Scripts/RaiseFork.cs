@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
+using TMPro;
 
 public class RaiseFork : MonoBehaviour
 {
@@ -6,16 +8,29 @@ public class RaiseFork : MonoBehaviour
     [SerializeField] XRLever raiseLever;
     [SerializeField] XRLever leftRightLever;
     [SerializeField] XRLever tiltLever;
+
     [Header("Fork Reference")]
     [SerializeField] Transform forkTransform;
+
     [Header("Speeds")]
     [SerializeField] private float forkRaiseSpeed = 1f;
     [SerializeField] private float forkSlideSpeed = 1f;
     [SerializeField] private float forkTiltSpeed = 45f;
+
     [Header("Limits")]
     [SerializeField] private float minY, maxY;
     [SerializeField] private float minZ, maxZ;
     [SerializeField] private float minTilt, maxTilt;
+
+    [Header("Audio")]
+    [SerializeField] private AudioSource accessibleSound_Raise_Lower;
+    [SerializeField] private AudioSource accessibleSound_Left_Right;
+    [SerializeField] private AudioSource accessibleSound_Tilt;
+    [Header("Subtitles")]
+    [SerializeField] private TextMeshProUGUI RaiseLower_subtitleText;
+    [SerializeField] private TextMeshProUGUI LeftRight_subtitleText;
+    [SerializeField] private TextMeshProUGUI Tilt_subtitleText;
+
     private Vector3 restPosition;
     private Quaternion restRotation;
     private float currentTilt = 0f;
@@ -25,6 +40,31 @@ public class RaiseFork : MonoBehaviour
     {
         restPosition = forkTransform.localPosition;
         restRotation = forkTransform.localRotation;
+
+        raiseLever.hoverEntered.AddListener(_ => accessibleSound_Raise_Lower.Play());
+        raiseLever.hoverExited.AddListener(_ => accessibleSound_Raise_Lower.Stop());
+        raiseLever.hoverEntered.AddListener(_ => RaiseLower_subtitleText.text = "Raising/Lowering Fork");
+        raiseLever.hoverExited.AddListener(_ => RaiseLower_subtitleText.text = "");
+
+        leftRightLever.hoverEntered.AddListener(_ => accessibleSound_Left_Right.Play());
+        leftRightLever.hoverExited.AddListener(_ => accessibleSound_Left_Right.Stop());
+        leftRightLever.hoverEntered.AddListener(_ => LeftRight_subtitleText.text = "Sliding Fork Left/Right"); 
+        leftRightLever.hoverExited.AddListener(_ => LeftRight_subtitleText.text = "");
+
+        tiltLever.hoverEntered.AddListener(_ => accessibleSound_Tilt.Play());
+        tiltLever.hoverExited.AddListener(_ => accessibleSound_Tilt.Stop());
+        tiltLever.hoverEntered.AddListener(_ => Tilt_subtitleText.text = "Tilting Fork Forward/Backward");
+        tiltLever.hoverExited.AddListener(_ => Tilt_subtitleText.text = "");
+    }
+
+    void OnDestroy()
+    {
+        raiseLever.hoverEntered.RemoveAllListeners();
+        raiseLever.hoverExited.RemoveAllListeners();
+        leftRightLever.hoverEntered.RemoveAllListeners();
+        leftRightLever.hoverExited.RemoveAllListeners();
+        tiltLever.hoverEntered.RemoveAllListeners();
+        tiltLever.hoverExited.RemoveAllListeners();
     }
 
     void Update()
@@ -40,8 +80,6 @@ public class RaiseFork : MonoBehaviour
         return Mathf.Sign(input) * (Mathf.Abs(input) - deadzone) / (1f - deadzone);
     }
 
-    // Returns the lever's input value only if it is currently being held,
-    // otherwise returns 0 so the fork locks in place immediately on release.
     float GetLeverInput(XRLever lever)
     {
         if (!lever.isSelected) return 0f;

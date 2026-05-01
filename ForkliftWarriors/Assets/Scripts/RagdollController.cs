@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -57,17 +58,21 @@ public class RagdollController : MonoBehaviour
     }
 
     
-    void OnCollisionEnter(Collision collision)
+    void OnTriggerEnter(Collider col)
     {
         if (!isRagdoll)
         {
-            float impactForce = collision.impulse.magnitude;
-
-            if (impactForce >= collisionForceThreshold)
+            Rigidbody otherRb = col.attachedRigidbody;
+            if (otherRb != null)
             {
-                ActivateRagdoll(collision.impulse);
+                ActivateRagdoll(otherRb.linearVelocity * otherRb.mass);
             }
         }
+    }
+
+    private void ActivateRagdoll(object value)
+    {
+        throw new NotImplementedException();
     }
 
     public void ActivateRagdoll(Vector3 force = default)

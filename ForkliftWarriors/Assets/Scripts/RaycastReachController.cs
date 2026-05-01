@@ -30,7 +30,7 @@ public class RaycastReachController : MonoBehaviour
         ApplyReach(isOn);
     }
 
-    private void ApplyReach(bool extended)
+    public void ApplyReach(bool extended)
     {
         float distance = extended ? extendedReach : normalReach;
         SetFarCasterDistance(leftInteractor, distance);
