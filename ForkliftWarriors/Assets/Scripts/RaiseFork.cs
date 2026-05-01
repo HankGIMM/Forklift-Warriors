@@ -26,7 +26,6 @@ public class RaiseFork : MonoBehaviour
     [SerializeField] private AudioSource accessibleSound_Raise_Lower;
     [SerializeField] private AudioSource accessibleSound_Left_Right;
     [SerializeField] private AudioSource accessibleSound_Tilt;
-
     [Header("Subtitles")]
     [SerializeField] private TextMeshProUGUI RaiseLower_subtitleText;
     [SerializeField] private TextMeshProUGUI LeftRight_subtitleText;
@@ -37,10 +36,7 @@ public class RaiseFork : MonoBehaviour
     private float currentTilt = 0f;
     private const float deadzone = 0.1f;
 
-    // -------------------------
-    // ✅ NEW: Centralized reset
-    // -------------------------
-    void ClearAllListeners()
+   void ClearAllListeners()
     {
         raiseLever.hoverEntered.RemoveAllListeners();
         raiseLever.hoverExited.RemoveAllListeners();
@@ -128,6 +124,8 @@ public class RaiseFork : MonoBehaviour
         LeftRightFork();
         TiltFork();
     }
+    
+
 
     float ApplyDeadzone(float input)
     {
