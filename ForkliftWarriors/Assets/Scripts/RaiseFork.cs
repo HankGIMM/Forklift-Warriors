@@ -36,6 +36,11 @@ public class RaiseFork : MonoBehaviour
     private float currentTilt = 0f;
     private const float deadzone = 0.1f;
 
+    void Start()
+    {
+        restPosition = forkTransform.localPosition;
+        restRotation = forkTransform.localRotation;
+    }
    void ClearAllListeners()
     {
         raiseLever.hoverEntered.RemoveAllListeners();
