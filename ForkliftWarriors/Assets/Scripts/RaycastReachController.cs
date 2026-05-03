@@ -10,6 +10,8 @@ public class RaycastReachController : MonoBehaviour
     public NearFarInteractor leftInteractor;
     public NearFarInteractor rightInteractor;
 
+    public GameObject[] reachLineRender;
+
     [Header("Reach Presets")]
     public float normalReach = 5f;
     public float extendedReach = 15f;
@@ -37,6 +39,7 @@ public class RaycastReachController : MonoBehaviour
     {
         Debug.Log("Reach toggle changed: " + isOn);
         ApplyReach(isOn);
+        
     }
 
     public void ApplyReach(bool extended)
@@ -45,6 +48,14 @@ public class RaycastReachController : MonoBehaviour
 
         SetFarCasterDistance(leftInteractor, distance);
         SetFarCasterDistance(rightInteractor, distance);
+        if (reachLineRender != null)
+    {
+        foreach (var obj in reachLineRender)
+        {
+            if (obj != null)
+                obj.SetActive(extended);
+        }
+    }
     }
 
     private void SetFarCasterDistance(NearFarInteractor interactor, float distance)
@@ -79,14 +90,14 @@ public class RaycastReachController : MonoBehaviour
         {
             Debug.LogWarning($"No valid caster found on {interactor.name}");
 
-            // 🔍 Debug: list components to help you identify what's actually there
+          
             foreach (var comp in interactor.GetComponentsInChildren<Component>(true))
             {
                 Debug.Log($"{interactor.name} has component: {comp.GetType()}");
             }
         }
 
-        // 🔄 Force refresh (some XR setups cache values)
+       
         interactor.enabled = false;
         interactor.enabled = true;
     }
