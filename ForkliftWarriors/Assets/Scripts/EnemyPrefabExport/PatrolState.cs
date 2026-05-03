@@ -61,14 +61,14 @@ public class PatrolState : EnemyState
     private IEnumerator WaitAtWaypoint()
     {
         isWaiting = true;
-        SetAnimatorState("isIdle");
+        if (animator != null) SetAnimatorState("isIdle");
 
        
 
         yield return new WaitForSeconds(waypointWaitTime);
 
         isWaiting = false;
-        SetAnimatorState("isPatrolling");
+        if (animator != null) SetAnimatorState("isPatrolling");
 
      
         MoveToNextWaypoint();
