@@ -3714,10 +3714,10 @@ PrefabInstance:
       addedObject: {fileID: 433534116}
     - targetCorrespondingSourceObject: {fileID: 1096969439554681321, guid: 1976527a7c3e84645976b32c37762bd1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1244262044}
+      addedObject: {fileID: 1519920584}
     - targetCorrespondingSourceObject: {fileID: 1096969439554681321, guid: 1976527a7c3e84645976b32c37762bd1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1519920584}
+      addedObject: {fileID: 1244262044}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7467729887213958834, guid: 1976527a7c3e84645976b32c37762bd1, type: 3}
       insertIndex: -1
@@ -9554,6 +9554,7 @@ MonoBehaviour:
   - {fileID: 1249802277}
   - {fileID: 1113931578}
   - {fileID: 1386678966}
+  - {fileID: 784922825}
   textsToTurnWhite:
   - {fileID: 479267990}
   - {fileID: 477041574}
@@ -9564,7 +9565,8 @@ MonoBehaviour:
   - {fileID: 1359530026}
   - {fileID: 798611509}
   - {fileID: 820903785}
-  applyOnStart: 0
+  - {fileID: 1061324061}
+  applyOnStart: 1
 --- !u!114 &1519920586
 MonoBehaviour:
   m_ObjectHideFlags: 0
