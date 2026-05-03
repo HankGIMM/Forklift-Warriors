@@ -29,6 +29,13 @@ public class HighContrastMenu : MonoBehaviour
             ApplyHighContrast();
         }
     }
+    public void OnToggleChanged(bool isOn)
+    {
+        if (isOn)
+            ApplyHighContrast();
+        else
+            ResetColors();
+    }
 
     // Cache original colors for all assigned elements (safe to call multiple times)
     private void CacheOriginalColors()
