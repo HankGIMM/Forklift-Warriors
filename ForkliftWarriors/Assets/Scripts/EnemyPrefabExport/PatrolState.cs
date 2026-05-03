@@ -15,14 +15,14 @@ public class PatrolState : EnemyState
     //    public EnemyHealth enemyHealth;
     private bool isWaiting = false;
     [SerializeField] private Animator animator;
-    public AudioSource walkSound;
+    //public AudioSource walkSound;
 
     private void Start()
     {
         if (waypoints.Count > 0)
         {
             MoveToNextWaypoint();
-            walkSound.Play();
+            //walkSound.Play();
         }
         else
         {
@@ -66,7 +66,7 @@ public class PatrolState : EnemyState
 
     private IEnumerator WaitAtWaypoint()
     {
-        StartCoroutine(AudioFade());
+        //StartCoroutine(AudioFade());
         isWaiting = true;
         animator.SetBool("isPatrolling", false);
         animator.SetBool("isIdle", true);
@@ -75,7 +75,7 @@ public class PatrolState : EnemyState
         animator.SetBool("isIdle", false);
         animator.SetBool("isPatrolling", true);
         MoveToNextWaypoint();
-        walkSound.volume = 1f;
+        //walkSound.volume = 1f;
     }
 
     private void MoveToNextWaypoint()
@@ -95,12 +95,12 @@ public class PatrolState : EnemyState
         currentDestination = waypoints[currentWaypointIndex];
         navMeshAgent.SetDestination(currentDestination.position);
     }
-    private IEnumerator AudioFade()
-    {
-        while (walkSound.volume > 0)
-        {
-            walkSound.volume -= 0.1f;
-            yield return new WaitForSeconds(0.1f);
-        }
-    }
+    // private IEnumerator AudioFade()
+    // {
+    //     while (walkSound.volume > 0)
+    //     {
+    //         walkSound.volume -= 0.1f;
+    //         yield return new WaitForSeconds(0.1f);
+    //     }
+    // }
 }
