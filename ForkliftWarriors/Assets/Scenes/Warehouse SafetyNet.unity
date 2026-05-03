@@ -6518,21 +6518,25 @@ PrefabInstance:
       value: Near-Far Interactor Left
       objectReference: {fileID: 0}
     - target: {fileID: 5949727424041121515, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_HandMeshMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 61d033f3a51f40647a5458ea14f3b4af, type: 2}
+    - target: {fileID: 5949727424041121515, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_AndroidXRLeftHandMesh
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1400534398292267946, guid: c596c6eccbc90fe48949f87e583ce552, type: 3}
     - target: {fileID: 5949727424041121515, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_MetaQuestLeftHandMesh
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 757950445636073681, guid: ffd656bf2a3ba3d41b1e4a94b81b7c85, type: 3}
     - target: {fileID: 5949727424041121515, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_AndroidXRRightHandMesh
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 4898292749234109498, guid: db3e5aca7f72adb40a12ecd3ce5c17f3, type: 3}
     - target: {fileID: 5949727424041121515, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_MetaQuestRightHandMesh
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1768957577311777180, guid: 89e80c47615e4f043926d66492d3ca5f, type: 3}
     - target: {fileID: 6986405091442374917, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_InteractionManager
       value: 
@@ -10775,7 +10779,7 @@ Transform:
   m_GameObject: {fileID: 1812317143079281741}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -18.530956, y: 13.468262, z: 44.356728}
+  m_LocalPosition: {x: -18.530956, y: 12.89, z: 44.356728}
   m_LocalScale: {x: 307.0716, y: 307.0716, z: 307.0716}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37461,6 +37465,7 @@ GameObject:
   - component: {fileID: 98975997647385410}
   - component: {fileID: 2094316829341742281}
   - component: {fileID: 6541352425516325719}
+  - component: {fileID: 6541352425516325720}
   m_Layer: 0
   m_Name: BreakRoom
   m_TagString: Untagged
@@ -43857,7 +43862,7 @@ Transform:
   m_GameObject: {fileID: 1068970470662270588}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -18.530956, y: 13.468262, z: 44.356728}
+  m_LocalPosition: {x: -18.530956, y: 12.87, z: 44.356728}
   m_LocalScale: {x: 307.0716, y: 307.0716, z: 307.0716}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -45725,7 +45730,7 @@ Transform:
   m_GameObject: {fileID: 2739255027610612265}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -48.94453, y: 1.5098544, z: 37.559166}
+  m_LocalPosition: {x: -48.94453, y: 0.91, z: 37.559166}
   m_LocalScale: {x: 192.56413, y: 192.56413, z: 192.56413}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -68600,7 +68605,7 @@ Transform:
   m_GameObject: {fileID: 129977550549960525}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -42.607185, y: 1.5098544, z: 37.559166}
+  m_LocalPosition: {x: -42.607185, y: 0.91, z: 37.559166}
   m_LocalScale: {x: 192.56413, y: 192.56413, z: 192.56413}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -106180,6 +106185,31 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6541352425516325720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1812317143079281741}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eeb5dc026fdf4b488bc7ae0138ab719, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshLink
+  m_SerializedVersion: 1
+  m_AgentTypeID: 0
+  m_StartPoint: {x: -12.8396015, y: 0.2199996, z: -3.9612267}
+  m_EndPoint: {x: -7.9385915, y: -0.000000673449, z: -3.9328249}
+  m_StartTransform: {fileID: 0}
+  m_EndTransform: {fileID: 0}
+  m_Activated: 1
+  m_Width: 0
+  m_CostModifier: 1
+  m_IsOverridingCost: 0
+  m_Bidirectional: 1
+  m_AutoUpdatePosition: 1
+  m_Area: 0
 --- !u!1 &6542240218740100706
 GameObject:
   m_ObjectHideFlags: 0
@@ -128004,7 +128034,7 @@ Transform:
   m_GameObject: {fileID: 6974989829176264949}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -36.953835, y: 3.3480358, z: 45.736156}
+  m_LocalPosition: {x: -36.953835, y: 2.75, z: 45.736156}
   m_LocalScale: {x: 307.0716, y: 307.0716, z: 307.0716}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -132390,7 +132420,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 290bd18ee1179f142a422fd845299479, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 056d78ade81a5e04498fc6bd12e8f27d, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &8248265939565373477
 Transform:
@@ -142289,7 +142319,7 @@ Transform:
   m_GameObject: {fileID: 9152363911908649805}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: -50.95709, y: 1.1135747, z: 38.15081}
+  m_LocalPosition: {x: -50.95709, y: 0.52, z: 38.15081}
   m_LocalScale: {x: 192.56413, y: 192.56413, z: 192.56413}
   m_ConstrainProportionsScale: 0
   m_Children: []

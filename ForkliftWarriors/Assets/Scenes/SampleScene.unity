@@ -6321,6 +6321,13 @@ MonoBehaviour:
   maxZ: 0.5
   minTilt: -15
   maxTilt: 15
+  EngineSound: {fileID: 0}
+  accessibleSound_Raise_Lower: {fileID: 0}
+  accessibleSound_Left_Right: {fileID: 0}
+  accessibleSound_Tilt: {fileID: 0}
+  RaiseLower_subtitleText: {fileID: 0}
+  LeftRight_subtitleText: {fileID: 0}
+  Tilt_subtitleText: {fileID: 0}
 --- !u!1 &762009635
 GameObject:
   m_ObjectHideFlags: 0
@@ -11372,6 +11379,14 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 776008133}
+    - target: {fileID: 7917674758246323947, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0518
+      objectReference: {fileID: 0}
+    - target: {fileID: 7917674758246323947, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.119
+      objectReference: {fileID: 0}
     - target: {fileID: 7917674758919744168, guid: 77e7c27b2c5525e4aa8cc9f99d654486, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.9
