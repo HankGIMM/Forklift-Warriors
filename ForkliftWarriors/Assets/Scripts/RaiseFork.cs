@@ -23,6 +23,7 @@ public class RaiseFork : MonoBehaviour
     [SerializeField] private float minTilt, maxTilt;
 
     [Header("Audio")]
+    [SerializeField] private AudioSource EngineSound;
     [SerializeField] private AudioSource accessibleSound_Raise_Lower;
     [SerializeField] private AudioSource accessibleSound_Left_Right;
     [SerializeField] private AudioSource accessibleSound_Tilt;
