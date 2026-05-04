@@ -23,7 +23,7 @@ public class EnemyStateController : MonoBehaviour
         {
             Debug.LogError("Current State is null");
         }
-        else if (currentState is PatrolState)
+        else if (currentState is PatrolState && animator != null)
         {
             animator.SetBool("isPatrolling", true);
         }
@@ -57,7 +57,7 @@ public class EnemyStateController : MonoBehaviour
         previousState = currentState;
 
         // Update the animator to set the previous state's bool to false
-        if (previousState is PatrolState)
+        if (previousState is PatrolState && animator != null)
         {
             animator.SetBool("isPatrolling", false);
         }
