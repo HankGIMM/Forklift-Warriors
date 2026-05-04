@@ -9,11 +9,13 @@ public class PlacementArea : MonoBehaviour
     public GameObject objectiveAreaVisuals;
     private GameObject scoreObject;
     private ScoreScript scoreScript;
+
     void Start()
     {
         scoreObject = GameObject.FindGameObjectWithTag("ScoreManager");
         scoreScript = scoreObject.GetComponent<ScoreScript>();
     }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.transform.root != other.transform && other.CompareTag("boxpallet"))
@@ -25,7 +27,6 @@ public class PlacementArea : MonoBehaviour
             if (rb != null)
             {
                 objectiveAreaVisuals.SetActive(false);
-                //play animation like confetti or something
                 Snap(other.transform, rb);
             }
         }
@@ -40,12 +41,14 @@ public class PlacementArea : MonoBehaviour
         root.rotation = snapPoint.transform.rotation;
         isSnapped = true;
 
-       
         foreach (Collider col in root.GetComponentsInChildren<Collider>())
-        {
-            col.enabled = false; 
-        }
+            col.enabled = false;
+
         Debug.Log("Snapped permanently: " + root.name);
+
+        // *** AUDIO: pallet successfully delivered to objective.
+        ForkliftEvents.RaisePalletPlaced();
+
         scoreScript.ScoreUpdated();
     }
 }
