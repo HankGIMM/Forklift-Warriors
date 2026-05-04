@@ -49796,7 +49796,7 @@ MonoBehaviour:
   maxZ: 0.5
   minTilt: -15
   maxTilt: 15
-  EngineSound: {fileID: 0}
+  EngineSound: {fileID: 919132148704456309}
   accessibleSound_Raise_Lower: {fileID: 748384917}
   accessibleSound_Left_Right: {fileID: 1661851087}
   accessibleSound_Tilt: {fileID: 1363608883}
@@ -84962,69 +84962,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1324506227}
   m_Mesh: {fileID: 8612945018315039251, guid: 4f423fb5d9323514fba0531ff35e0904, type: 3}
---- !u!1 &1325066743
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1325066745}
-  - component: {fileID: 1325066744}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1325066744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325066743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38566a6386b7a734c8aa6ded2aca0a86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ForkliftAudioManager
-  engineSource: {fileID: 919132148704456309}
-  forkSource: {fileID: 0}
-  oneShotSource: {fileID: 0}
-  engineIdle: {fileID: 8300000, guid: c018eecfeb39e4d4493961d2f78435fe, type: 3}
-  engineDrive: {fileID: 0}
-  brakeSound: {fileID: 0}
-  forkRaiseClip: {fileID: 8300000, guid: e5c86c7423edfd24a83370482c9a4506, type: 3}
-  forkSlideClip: {fileID: 8300000, guid: e5c86c7423edfd24a83370482c9a4506, type: 3}
-  forkTiltClip: {fileID: 8300000, guid: e5c86c7423edfd24a83370482c9a4506, type: 3}
-  leverGrabClip: {fileID: 0}
-  leverReleaseClip: {fileID: 0}
-  palletSnapClip: {fileID: 0}
-  palletDropClip: {fileID: 0}
-  palletPlacedClip: {fileID: 0}
-  scoreUpClip: {fileID: 0}
-  workerHitClips: []
-  workerRecoveredClip: {fileID: 0}
-  enginePitchIdle: 0.8
-  enginePitchMax: 1.6
---- !u!4 &1325066745
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325066743}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.97317, y: -0.42194, z: 12.45368}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1325739784
 GameObject:
   m_ObjectHideFlags: 0
@@ -138660,7 +138597,7 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1325066745}
+  - {fileID: 1132966562}
   - {fileID: 1703568386}
   - {fileID: 610590593}
   - {fileID: 776008134}
@@ -138683,4 +138620,3 @@ SceneRoots:
   - {fileID: 265130940}
   - {fileID: 1516469852}
   - {fileID: 675735058}
-  - {fileID: 1132966562}
