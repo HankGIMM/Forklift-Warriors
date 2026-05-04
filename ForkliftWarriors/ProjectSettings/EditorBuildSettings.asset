@@ -13,10 +13,7 @@ EditorBuildSettings:
     guid: c2258295cbf46364ca78e151c3100a64
   - enabled: 1
     path: Assets/Scenes/Warehouse.unity
-    guid: 0855532d61cd11d48990285d3bc39cd3
-  - enabled: 0
-    path: Assets/Scenes/Warehouse SafetyNet.unity
-    guid: 10629062359683d408f3db29ff935e06
+    guid: 4600d18e3cc57674dbb0ea7948155e1c
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260, type: 2}
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: dc5a169419fa04987b057f65238cf3ba, type: 2}
