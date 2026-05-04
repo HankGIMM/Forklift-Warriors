@@ -38350,7 +38350,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.657
+  m_Volume: 0.599
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -49796,7 +49796,7 @@ MonoBehaviour:
   maxZ: 0.5
   minTilt: -15
   maxTilt: 15
-  EngineSound: {fileID: 919132148704456309}
+  EngineSound: {fileID: 0}
   accessibleSound_Raise_Lower: {fileID: 748384917}
   accessibleSound_Left_Right: {fileID: 1661851087}
   accessibleSound_Tilt: {fileID: 1363608883}
@@ -68243,8 +68243,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38566a6386b7a734c8aa6ded2aca0a86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ForkliftAudioManager
-  engineSource: {fileID: 0}
-  forkSource: {fileID: 0}
+  engineSource: {fileID: 919132148704456309}
+  forkSource: {fileID: 7988533843178612544}
   oneShotSource: {fileID: 570529881}
   engineIdle: {fileID: 8300000, guid: c018eecfeb39e4d4493961d2f78435fe, type: 3}
   engineDrive: {fileID: 8300000, guid: 2f006476de60cbc498c45e9902e6f455, type: 3}
@@ -84997,9 +84997,9 @@ MonoBehaviour:
   engineIdle: {fileID: 8300000, guid: c018eecfeb39e4d4493961d2f78435fe, type: 3}
   engineDrive: {fileID: 0}
   brakeSound: {fileID: 0}
-  forkRaiseClip: {fileID: 0}
-  forkSlideClip: {fileID: 0}
-  forkTiltClip: {fileID: 0}
+  forkRaiseClip: {fileID: 8300000, guid: e5c86c7423edfd24a83370482c9a4506, type: 3}
+  forkSlideClip: {fileID: 8300000, guid: e5c86c7423edfd24a83370482c9a4506, type: 3}
+  forkTiltClip: {fileID: 8300000, guid: e5c86c7423edfd24a83370482c9a4506, type: 3}
   leverGrabClip: {fileID: 0}
   leverReleaseClip: {fileID: 0}
   palletSnapClip: {fileID: 0}
@@ -138001,6 +138001,7 @@ GameObject:
   - component: {fileID: 7988533843178612541}
   - component: {fileID: 7988533843178612543}
   - component: {fileID: 7988533843178612542}
+  - component: {fileID: 7988533843178612544}
   m_Layer: 0
   m_Name: Spokes
   m_TagString: Untagged
@@ -138365,6 +138366,103 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!82 &7988533843178612544
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5001544715230513473}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!137 &8024812581865706266
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0

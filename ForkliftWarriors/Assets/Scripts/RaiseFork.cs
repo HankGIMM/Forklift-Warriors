@@ -156,9 +156,11 @@ public class RaiseFork : MonoBehaviour
         return ApplyDeadzone(lever.value);
     }
 
-    void RaisingFork()
+        void RaisingFork()
     {
         float input = GetLeverInput(raiseLever);
+        ForkliftEvents.RaiseForkRaising(input);
+
         if (input != 0f)
         {
             Vector3 pos = forkTransform.localPosition;
@@ -171,6 +173,8 @@ public class RaiseFork : MonoBehaviour
     void LeftRightFork()
     {
         float input = GetLeverInput(leftRightLever);
+        ForkliftEvents.RaiseForkSliding(input);
+
         if (input != 0f)
         {
             Vector3 pos = forkTransform.localPosition;
@@ -183,6 +187,8 @@ public class RaiseFork : MonoBehaviour
     void TiltFork()
     {
         float input = GetLeverInput(tiltLever);
+        ForkliftEvents.RaiseForkTilting(input);
+
         if (input != 0f)
         {
             currentTilt += input * forkTiltSpeed * Time.deltaTime;
