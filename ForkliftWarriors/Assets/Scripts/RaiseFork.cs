@@ -15,7 +15,7 @@ public class RaiseFork : MonoBehaviour
     [Header("Speeds")]
     [SerializeField] private float forkRaiseSpeed = 1f;
     [SerializeField] private float forkSlideSpeed = 1f;
-    [SerializeField] private float forkTiltSpeed  = 45f;
+    [SerializeField] private float forkTiltSpeed = 45f;
 
     [Header("Limits")]
     [SerializeField] private float minY, maxY;
@@ -23,16 +23,16 @@ public class RaiseFork : MonoBehaviour
     [SerializeField] private float minTilt, maxTilt;
 
     [Header("Audio")]
+    [SerializeField] private AudioSource EngineSound;
     [SerializeField] private AudioSource accessibleSound_Raise_Lower;
     [SerializeField] private AudioSource accessibleSound_Left_Right;
     [SerializeField] private AudioSource accessibleSound_Tilt;
-
     [Header("Subtitles")]
     [SerializeField] private TextMeshProUGUI RaiseLower_subtitleText;
     [SerializeField] private TextMeshProUGUI LeftRight_subtitleText;
     [SerializeField] private TextMeshProUGUI Tilt_subtitleText;
 
-    private Vector3    restPosition;
+    private Vector3 restPosition;
     private Quaternion restRotation;
     private float currentTilt = 0f;
     private const float deadzone = 0.1f;
@@ -41,32 +41,98 @@ public class RaiseFork : MonoBehaviour
     {
         restPosition = forkTransform.localPosition;
         restRotation = forkTransform.localRotation;
+    }
+   void ClearAllListeners()
+    {
+        raiseLever.hoverEntered.RemoveAllListeners();
+        raiseLever.hoverExited.RemoveAllListeners();
 
-        // Existing accessible-sound hover listeners — unchanged.
+        leftRightLever.hoverEntered.RemoveAllListeners();
+        leftRightLever.hoverExited.RemoveAllListeners();
+
+        tiltLever.hoverEntered.RemoveAllListeners();
+        tiltLever.hoverExited.RemoveAllListeners();
+
+        // Reset subtitles
+        RaiseLower_subtitleText.text = "";
+        LeftRight_subtitleText.text = "";
+        Tilt_subtitleText.text = "";
+
+        // Stop audio just in case
+        accessibleSound_Raise_Lower.Stop();
+        accessibleSound_Left_Right.Stop();
+        accessibleSound_Tilt.Stop();
+    }
+
+    public void OnDropdownChanged(int index)
+    {
+       
+        ClearAllListeners();
+
+        switch (index)
+        {
+            case 0:
+                DisableAll();
+                break;
+
+            case 1:
+                AudioPlayer();
+                break;
+
+            case 2:
+                Subtitle();
+                break;
+
+            case 3:
+                BothAudioPlayerAndSubtitle();
+                break;
+        }
+    }
+
+    void DisableAll()
+    {
+        accessibleSound_Raise_Lower.Stop();
+        accessibleSound_Left_Right.Stop();
+        accessibleSound_Tilt.Stop();
+
+        RaiseLower_subtitleText.text = "";
+        LeftRight_subtitleText.text = "";
+        Tilt_subtitleText.text = "";
+    }
+
+    public void AudioPlayer()
+    {
         raiseLever.hoverEntered.AddListener(_ => accessibleSound_Raise_Lower.Play());
         raiseLever.hoverExited.AddListener(_ => accessibleSound_Raise_Lower.Stop());
-        raiseLever.hoverEntered.AddListener(_ => RaiseLower_subtitleText.text = "Raising/Lowering Fork");
-        raiseLever.hoverExited.AddListener(_ => RaiseLower_subtitleText.text = "");
 
         leftRightLever.hoverEntered.AddListener(_ => accessibleSound_Left_Right.Play());
         leftRightLever.hoverExited.AddListener(_ => accessibleSound_Left_Right.Stop());
-        leftRightLever.hoverEntered.AddListener(_ => LeftRight_subtitleText.text = "Sliding Fork Left/Right");
-        leftRightLever.hoverExited.AddListener(_ => LeftRight_subtitleText.text = "");
 
         tiltLever.hoverEntered.AddListener(_ => accessibleSound_Tilt.Play());
         tiltLever.hoverExited.AddListener(_ => accessibleSound_Tilt.Stop());
-        tiltLever.hoverEntered.AddListener(_ => Tilt_subtitleText.text = "Tilting Fork Forward/Backward");
+    }
+
+    public void Subtitle()
+    {
+        raiseLever.hoverEntered.AddListener(_ => RaiseLower_subtitleText.text = "Raise and Lower Lever");
+        raiseLever.hoverExited.AddListener(_ => RaiseLower_subtitleText.text = "");
+
+        leftRightLever.hoverEntered.AddListener(_ => LeftRight_subtitleText.text = "Left and Right Lever");
+        leftRightLever.hoverExited.AddListener(_ => LeftRight_subtitleText.text = "");
+
+        tiltLever.hoverEntered.AddListener(_ => Tilt_subtitleText.text = "Tilt Lever");
         tiltLever.hoverExited.AddListener(_ => Tilt_subtitleText.text = "");
+    }
+
+    public void BothAudioPlayerAndSubtitle()
+    {
+        AudioPlayer();
+        Subtitle();
     }
 
     void OnDestroy()
     {
-        raiseLever.hoverEntered.RemoveAllListeners();
-        raiseLever.hoverExited.RemoveAllListeners();
-        leftRightLever.hoverEntered.RemoveAllListeners();
-        leftRightLever.hoverExited.RemoveAllListeners();
-        tiltLever.hoverEntered.RemoveAllListeners();
-        tiltLever.hoverExited.RemoveAllListeners();
+        ClearAllListeners();
     }
 
     void Update()
@@ -75,6 +141,8 @@ public class RaiseFork : MonoBehaviour
         LeftRightFork();
         TiltFork();
     }
+    
+
 
     float ApplyDeadzone(float input)
     {
@@ -91,11 +159,6 @@ public class RaiseFork : MonoBehaviour
     void RaisingFork()
     {
         float input = GetLeverInput(raiseLever);
-
-        // *** AUDIO: broadcast raise/lower input every frame (including zero
-        //     so ForkliftAudioManager knows when to stop the looping clip).
-        ForkliftEvents.RaiseForkRaising(input);
-
         if (input != 0f)
         {
             Vector3 pos = forkTransform.localPosition;
@@ -108,10 +171,6 @@ public class RaiseFork : MonoBehaviour
     void LeftRightFork()
     {
         float input = GetLeverInput(leftRightLever);
-
-        // *** AUDIO: broadcast slide input every frame.
-        ForkliftEvents.RaiseForkSliding(input);
-
         if (input != 0f)
         {
             Vector3 pos = forkTransform.localPosition;
@@ -124,10 +183,6 @@ public class RaiseFork : MonoBehaviour
     void TiltFork()
     {
         float input = GetLeverInput(tiltLever);
-
-        // *** AUDIO: broadcast tilt input every frame.
-        ForkliftEvents.RaiseForkTilting(input);
-
         if (input != 0f)
         {
             currentTilt += input * forkTiltSpeed * Time.deltaTime;
