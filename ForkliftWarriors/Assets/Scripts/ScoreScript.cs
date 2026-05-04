@@ -12,5 +12,9 @@ public class ScoreScript : MonoBehaviour
         score += 1;
         scoreText.text = "Level " + score.ToString();
         levelManager.OnScoreChanged(score);
+        if(score == 6)
+        {
+            scoreText.text = "You Win!";
+        }
     }
 }

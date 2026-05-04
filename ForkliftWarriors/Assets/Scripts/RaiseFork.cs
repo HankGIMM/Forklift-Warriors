@@ -66,13 +66,13 @@ public class RaiseFork : MonoBehaviour
 
     public void OnDropdownChanged(int index)
     {
-        // ✅ Always reset first
+       
         ClearAllListeners();
 
         switch (index)
         {
             case 0:
-                // None → do nothing
+                DisableAll();
                 break;
 
             case 1:
@@ -87,6 +87,17 @@ public class RaiseFork : MonoBehaviour
                 BothAudioPlayerAndSubtitle();
                 break;
         }
+    }
+
+    void DisableAll()
+    {
+        accessibleSound_Raise_Lower.Stop();
+        accessibleSound_Left_Right.Stop();
+        accessibleSound_Tilt.Stop();
+
+        RaiseLower_subtitleText.text = "";
+        LeftRight_subtitleText.text = "";
+        Tilt_subtitleText.text = "";
     }
 
     public void AudioPlayer()
