@@ -84,6 +84,7 @@ public class RagdollController : MonoBehaviour
         if (force != Vector3.zero && ragdollRigidbodies.Length > 0)
         {
             ragdollRigidbodies[0].AddForce(force, ForceMode.Impulse);
+            ForkliftEvents.RaiseWorkerHit();
         }
     }
 
